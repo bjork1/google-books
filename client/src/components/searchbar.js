@@ -1,19 +1,20 @@
-import React, {Component, useState, useEffect} from 'react';
+import React, {Component} from 'react';
+import API from "../utils/API";
 //import queryString from 'query-string';
-import ReactDOM from 'react-dom';
-import BootstrapTable from 'react-bootstrap-table-next';
-import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
-const columns = [{
-    dataField: 'id',
-    text: 'Product ID'
-  }, {
-    dataField: 'name',
-    text: 'Product Name'
-  }, {
-    dataField: 'price',
-    text: 'Product Price',
-    filter: textFilter() // apply text filter
-  }];
+// import ReactDOM from 'react-dom';
+// import BootstrapTable from 'react-bootstrap-table-next';
+// import filterFactory, { textFilter } from 'react-bootstrap-table2-filter';
+// const columns = [{
+//     dataField: 'id',
+//     text: 'Product ID'
+//   }, {
+//     dataField: 'name',
+//     text: 'Product Name'
+//   }, {
+//     dataField: 'price',
+//     text: 'Product Price',
+//     filter: textFilter() // apply text filter
+//   }];
 
 
 
@@ -57,7 +58,16 @@ constructor(props) {
     console.log('A name was submitted: ' + this.state.value);
     event.preventDefault();
 
-    this.componentDidMount()
+     this.componentDidMount();
+     if (this.value) {
+      API.saveBook({
+        bookSearch: this.value
+      })
+        // .then(res => loadBooks())
+        .catch(err => console.log(err));
+    }
+
+
   }
 
   
@@ -68,20 +78,19 @@ componentDidMount() {
   .then(data => this.setState({results: data.items[0].volumeInfo.title, resultsTwo: data.items[1].volumeInfo.title, resultsThree: data.items[2].volumeInfo.title}, console.log(data.items[0].volumeInfo.title)))
       }
       
-      handleInputChange = () => {
-        this.setState({
-          query: this.search.value
-        }, () => {
-          if (this.state.query && this.state.query.length > 1) {
-            if (this.state.query.length % 2 === 0) {
-              this.componentDidMount()
-            }
-          } 
-        })
-    }
+    //   handleInputChange = () => {
+    //     this.setState({
+    //       query: this.search.value
+    //     }, () => {
+    //       if (this.state.query && this.state.query.length > 1) {
+    //         if (this.state.query.length % 2 === 0) {
+    //           this.componentDidMount()
+    //         }
+    //       } 
+    //     })
+    // }
       
-
-
+ 
 
 
 render() {
